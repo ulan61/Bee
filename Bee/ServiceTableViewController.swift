@@ -12,9 +12,9 @@ let serviceCellReuseId = "serviceCell"
 
 class ServiceTableViewController: UITableViewController {
     
-    var serviceName:String!
+    var employeeNames = ["Грузчик", "Электрик", "Сантехник", "Посудомойщица", "Повар", "Официант"]
     
-    var indexPathOfSelectedCell: IndexPath!
+    var serviceName:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,23 +23,24 @@ class ServiceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+
+        return employeeNames.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: serviceCellReuseId, for: indexPath) as! ServicesTableViewCell
         
+        cell.employeeName = employeeNames[indexPath.row]
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ServicesTableViewCell
-        
-        indexPathOfSelectedCell = indexPath
-        deselectPreviousCell(at: indexPath)
+
         cell.serviceSelected = true
         
 //        _ = self.navigationController?.popToRootViewController(animated: true)
+
     }
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ServicesTableViewCell
@@ -47,15 +48,13 @@ class ServiceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
+
+        return 60
     }
 }
-//MARK: Helper functions
-extension ServiceTableViewController {
-    func deselectPreviousCell(at indexPath: IndexPath) {
-        if indexPath != indexPathOfSelectedCell{
-            let previousSelectedCell = tableView.cellForRow(at: indexPathOfSelectedCell) as! ServicesTableViewCell
-            previousSelectedCell.serviceSelected = false
-        }
-    }
-}
+
+
+
+//        _ = self.navigationController?.popToRootViewController(animated: true)
+
+

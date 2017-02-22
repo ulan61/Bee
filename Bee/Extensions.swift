@@ -16,12 +16,13 @@ extension UITabBarController{
     func setTabbarController() -> UITabBarController
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabbarcntrl = storyboard.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+
+        let tabbarController = storyboard.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
         
         
-        let tabbar = tabbarcntrl.tabBar
+        let tabbar = tabbarController.tabBar
         let newApplication = tabbar.items![0]
-        newApplication.title = "Новая заявка" // tabbar titlee
+        newApplication.title = "Новая заявка"
         newApplication.image = UIImage.fontAwesomeIcon(name: .plus, textColor: .black,
                                                        size: .init(width: 30, height: 30))
         
@@ -34,8 +35,8 @@ extension UITabBarController{
         myProfile.title = "Мой профиль"
         myProfile.image = UIImage.fontAwesomeIcon(name: .user, textColor: .black,
                                                   size: .init(width: 30, height: 30))
-        
-        return tabbarcntrl
+
+        return tabbarController
     }
 }
 
@@ -134,7 +135,7 @@ extension UITextField{
             let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: self.bounds.height))
             self.leftView = leftView
             self.leftViewMode = UITextFieldViewMode.always
-            self.rightView = view
+            self.rightView = view // space in beginning
             self.rightViewMode = UITextFieldViewMode.always
         }
     }

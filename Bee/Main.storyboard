@@ -321,6 +321,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="circle" destination="jLD-dM-lL8" id="S8l-kt-F1E"/>
+                                    <outlet property="label" destination="dyt-RF-fad" id="isj-0P-s5a"/>
                                     <outlet property="thinCircle" destination="kGk-Mz-SVk" id="OsD-AH-umy"/>
                                 </connections>
                             </tableViewCell>

@@ -39,16 +39,5 @@ class SearchViewController: UIViewController,UIScrollViewDelegate {
         title = "Поиск специалистов"
         self.view.backgroundColor = UIColor.init(netHex: Colors.greyBackground)
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-    }
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        
-    }
-    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        
-    }
-    
 }
 

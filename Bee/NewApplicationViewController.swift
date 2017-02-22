@@ -41,7 +41,7 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
     
     @IBOutlet weak var costTF: UITextField!{
         didSet{
-            costTF.configure(withIcon: FontAwesome.cost, iconColor:  .black, text: "Планируемый бюджет",
+            costTF.configure(withIcon: FontAwesome.cost, iconColor:  .black, text: "Планируемый бюджет (cом)",
                              textColor: .black, placeholderTextColor: UIColor(netHex: Colors.greyTextFieldText),
                              backgroundColor: .white, borderColor: UIColor(netHex: Colors.strokeColor), isLeftView: true)
             costTF.delegate = self
@@ -85,12 +85,12 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = "Новая заявка"
         self.view.backgroundColor = UIColor(netHex: Colors.greyBackground)
-        setObservers()
+        Keyboard.shared.setObservers(inScrollView: scrollView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeObservers()
+        Keyboard.shared.removeObservers(inScrollView: scrollView)
     }
     
     
@@ -116,35 +116,6 @@ extension NewApplicationViewController{
     func dismissKeyboard() {
         scrollView.endEditing(true)
     }
-    
-    func setObservers(){
-        let notifCenter = NotificationCenter.default
-        notifCenter.addObserver(self, selector: #selector(NewApplicationViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notifCenter.addObserver(self, selector: #selector(NewApplicationViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    func removeObservers() {
-        let notifCenter = NotificationCenter.default
-        notifCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notifCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide , object: nil)
-    }
-    func keyboardWillShow(_ notif: Notification){
-        if telephoneNumberTF.isFirstResponder || addressTF.isFirstResponder || costTF.isFirstResponder{
-            let keyboardFrameValue = notif.userInfo![UIKeyboardFrameEndUserInfoKey]
-            let keyboardFrame = (keyboardFrameValue! as AnyObject).cgRectValue
-            var scrollViewInsets = self.scrollView.contentInset
-            scrollViewInsets.bottom = (keyboardFrame?.size.height)!
-            let desiredOffset = CGPoint(x: 0, y: scrollViewInsets.bottom - 100)
-            scrollView.setContentOffset(desiredOffset, animated: false)
-        }
-    }
-    
-    func keyboardWillHide(_ notif: Notification) {
-        var scrollViewInsets = self.scrollView.contentInset
-        scrollViewInsets.bottom = 0;
-        let desiredOffset = CGPoint(x: 0, y: 0)
-        scrollView.setContentOffset(desiredOffset, animated: false)
-    }
 }
 
 //MARK: UITextFieldDelegate methods
@@ -160,6 +131,7 @@ extension NewApplicationViewController{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField.tag == 0 {
             textField.resignFirstResponder()
+            scrollView.setContentOffset(CGPoint(x: 0,y: 0), animated: false)
         }
         textField.textColor = .black
     }
@@ -181,6 +153,7 @@ extension NewApplicationViewController {
             textView.text = ""
             textView.textColor = .black
         }
+        scrollView.setContentOffset(CGPoint(x: 0,y: 0), animated: false)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {

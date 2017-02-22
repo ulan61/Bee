@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8C277E71EFD67E83F8920E8A2841FDDA2BD2FF98",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8C277E71EFD67E83F8920E8A2841FDDA2BD2FF98" : 9223372036854775807,
+    "DB6C969CEC14D453A576D9B6EB2C25D46545911F" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "648059A7-3CB8-4236-BAFB-BEA4CBC1A629",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8C277E71EFD67E83F8920E8A2841FDDA2BD2FF98" : "Bee\/",
+    "DB6C969CEC14D453A576D9B6EB2C25D46545911F" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Bee",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Bee.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ulan61\/Bee.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8C277E71EFD67E83F8920E8A2841FDDA2BD2FF98"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/WuNata\/bettertodo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DB6C969CEC14D453A576D9B6EB2C25D46545911F"
+    }
+  ]
+}

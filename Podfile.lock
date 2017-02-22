@@ -1,0 +1,21 @@
+PODS:
+  - Alamofire (4.3.0)
+  - CCHexagonFlowLayout (1.0.2)
+  - FontAwesome.swift (1.0.0)
+  - SwiftMaskTextfield (0.0.3)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.3)
+  - CCHexagonFlowLayout
+  - FontAwesome.swift
+  - SwiftMaskTextfield
+
+SPEC CHECKSUMS:
+  Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
+  CCHexagonFlowLayout: b500d18bfb2381d6b02d2a69686831a3186b62e7
+  FontAwesome.swift: 2d32a3d62195343c2004b7c9043294ed2948553a
+  SwiftMaskTextfield: 22e993bee1f4968bfca8be7654c9046f952631d8
+
+PODFILE CHECKSUM: 4a58d1185165e5fc880769e70a6255c04f6c6d1e
+
+COCOAPODS: 1.2.0

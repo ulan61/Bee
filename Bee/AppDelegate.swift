@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.statusBarStyle = .lightContent
         
-//        UserDefaults.standard.removeObject(forKey: "isSignedIn")
+        UserDefaults.standard.removeObject(forKey: "isSignedIn")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         

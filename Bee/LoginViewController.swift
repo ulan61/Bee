@@ -62,55 +62,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.backgroundColor = UIColor.init(netHex: Colors.yellow)
-        setObservers()
+        Keyboard.shared.setObservers(inScrollView: scrollView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        removeObservers()
+        Keyboard.shared.removeObservers(inScrollView: scrollView)
     }
 }
-
-//Helper functions 
-
-extension LoginViewController{
-    
-    fileprivate func setObservers() {
-        let modelName = UIDevice.current.modelName
-        if modelName == Devices.iPhone5 || modelName == Devices.iPhone5s || modelName == Devices.iPhoneSE{
-            let notifCenter = NotificationCenter.default
-            notifCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-            notifCenter.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        }
-    }
-    
-    fileprivate func removeObservers() {
-        let modelName = UIDevice.current.modelName
-        if modelName == Devices.iPhone5 || modelName == Devices.iPhone5s || modelName == Devices.iPhoneSE{
-            let notifCenter = NotificationCenter.default
-            notifCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-            notifCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide , object: nil)
-        }
-    }
-    
-    func keyboardWillShow(_ notif: Notification){
-        let keyboardFrameValue = notif.userInfo![UIKeyboardFrameEndUserInfoKey]
-        let keyboardFrame = (keyboardFrameValue! as AnyObject).cgRectValue
-        var scrollViewInsets = self.scrollView.contentInset
-        scrollViewInsets.bottom = (keyboardFrame?.size.height)!
-        let desiredOffset = CGPoint(x: 0, y: scrollViewInsets.bottom - 150)
-        scrollView.setContentOffset(desiredOffset, animated: true)
-    }
-    
-    func keyboardWillHide(_ notif: Notification) {
-        var scrollViewInsets = self.scrollView.contentInset
-        scrollViewInsets.bottom = 0;
-        let desiredOffset = CGPoint(x: 0, y: 0)
-        scrollView.setContentOffset(desiredOffset, animated: true)
-    }
-}
-
-//MARK: UITextFieldDelagate methods 
 
 extension LoginViewController{
     func textFieldDidBeginEditing(_ textField: UITextField) {
