@@ -30,12 +30,12 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
         }
     }
     
-    @IBOutlet weak var descriptionText: UITextView!{
+    @IBOutlet weak var descriptionTextView: UITextView!{
         didSet{
-            descriptionText.delegate = self
-            descriptionText.font = UIFont(name: ".SFUIDisplay", size: 16)
-            descriptionText.textColor = UIColor(netHex: Colors.greyTextFieldText)
-            descriptionText.text = "Опишите то, что необходимо сделать"
+            descriptionTextView.delegate = self
+            descriptionTextView.font = UIFont(name: ".SFUIDisplay", size: 16)
+            descriptionTextView.textColor = UIColor(netHex: Colors.greyTextFieldText)
+            descriptionTextView.text = "Опишите то, что необходимо сделать"
         }
     }
     
@@ -55,6 +55,7 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
                                 placeholderTextColor: UIColor(netHex: Colors.greyTextFieldText), backgroundColor: .white, borderColor: UIColor(netHex: Colors.strokeColor), isLeftView: true)
             addressTF.delegate = self
             addressTF.tag = 2
+            addressTF.autocorrectionType = .no
         }
     }
     @IBOutlet weak var telephoneNumberTF: SwiftMaskTextField!{
@@ -71,7 +72,6 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
     
     @IBAction func sendApplication(_ sender: UIButton) {
         self.performSegue(withIdentifier: myAppLicationTVStoryboardId, sender: self)
-        
     }
     
     override func viewDidLoad() {
@@ -85,17 +85,32 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
         super.viewWillAppear(animated)
         self.tabBarController?.navigationItem.title = "Новая заявка"
         self.view.backgroundColor = UIColor(netHex: Colors.greyBackground)
-        Keyboard.shared.setObservers(inScrollView: scrollView)
+        Notifications.shared.setKeyboardObservers(inScrollView: scrollView)
+        guard let chosenEmployee = UserDefaults.standard.string(forKey: "selectedEmployee") else {
+            chooseTF.text = ""
+            return
+        }
+        chooseTF.text = chosenEmployee
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Keyboard.shared.removeObservers(inScrollView: scrollView)
+        Notifications.shared.removeKeyboardObservers(inScrollView: scrollView)
+        UserDefaults.standard.removeObject(forKey: "selectedEmployee")
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+        setBackItem()
+        guard let searchVC = segue.destination as? SearchViewController else {
+            return
+        }
+        searchVC.cost = costTF.text!
+        searchVC.serviceDescription = descriptionTextView.text!
+    }
+    
+    func setBackItem() {
         let backItem = UIBarButtonItem()
         backItem.title = ""
         tabBarController?.navigationItem.backBarButtonItem = backItem
@@ -139,11 +154,6 @@ extension NewApplicationViewController{
         textField.resignFirstResponder()
         return true
     }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 1 && !textField.text!.isEmpty{
-            textField.text = textField.text! + " сом"
-        }
-    }
 }
 
 //MARK: UITextViewDelegate methods
@@ -153,7 +163,7 @@ extension NewApplicationViewController {
             textView.text = ""
             textView.textColor = .black
         }
-        scrollView.setContentOffset(CGPoint(x: 0,y: 0), animated: false)
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {

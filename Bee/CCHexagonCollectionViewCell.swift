@@ -13,16 +13,7 @@ class CCHexagonCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var textLabel: UILabel!
     
-    var iconImage: UIImage! {
-        didSet{
-            iconImageView.image = iconImage
-        }
-        
-    }
+    var iconImage: UIImage! { didSet{ iconImageView.image = iconImage } }
     
-    var text: String! {
-        didSet{
-            textLabel.text = text
-        }
-    }    
+    var text: String! { didSet{ textLabel.text = text } }
 }

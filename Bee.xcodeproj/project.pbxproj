@@ -19,7 +19,7 @@
 		F34975971E3F612D0070D359 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F34975961E3F612D0070D359 /* Assets.xcassets */; };
 		F349759A1E3F612D0070D359 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F34975981E3F612D0070D359 /* LaunchScreen.storyboard */; };
 		F34A9C461E5D758A00A78EF7 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34A9C451E5D758A00A78EF7 /* Services.swift */; };
-		F34A9C481E5D76BD00A78EF7 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34A9C471E5D76BD00A78EF7 /* Keyboard.swift */; };
+		F34A9C481E5D76BD00A78EF7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34A9C471E5D76BD00A78EF7 /* Notifications.swift */; };
 		F34A9C4A1E5D93FC00A78EF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F34A9C491E5D93FC00A78EF7 /* Main.storyboard */; };
 		F3552F5E1E40C8BD00C795AD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3552F5D1E40C8BD00C795AD /* Extensions.swift */; };
 		F36526661E4F11FF001A806E /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36526651E4F11FF001A806E /* VerificationViewController.swift */; };
@@ -48,7 +48,7 @@
 		F34975991E3F612D0070D359 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F349759B1E3F612D0070D359 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F34A9C451E5D758A00A78EF7 /* Services.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
-		F34A9C471E5D76BD00A78EF7 /* Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		F34A9C471E5D76BD00A78EF7 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		F34A9C491E5D93FC00A78EF7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F3552F5D1E40C8BD00C795AD /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F36526651E4F11FF001A806E /* VerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				F3552F5D1E40C8BD00C795AD /* Extensions.swift */,
-				F34A9C471E5D76BD00A78EF7 /* Keyboard.swift */,
+				F34A9C471E5D76BD00A78EF7 /* Notifications.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -426,7 +426,7 @@
 				F30DD4B91E41A8E200BB2C59 /* NewApplicationViewController.swift in Sources */,
 				F34975901E3F612D0070D359 /* AppDelegate.swift in Sources */,
 				F3BC49A91E55AE7D00B554CF /* SearchViewController.swift in Sources */,
-				F34A9C481E5D76BD00A78EF7 /* Keyboard.swift in Sources */,
+				F34A9C481E5D76BD00A78EF7 /* Notifications.swift in Sources */,
 				F34A9C461E5D758A00A78EF7 /* Services.swift in Sources */,
 				F3ABA0931E508E2C00197417 /* MyApplicationTableViewCell.swift in Sources */,
 				F3AB9BBC1E4C31DE0085E44B /* ServiceTableViewController.swift in Sources */,

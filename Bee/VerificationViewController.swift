@@ -18,6 +18,7 @@ class VerificationViewController: UIViewController, UITextFieldDelegate {
                              placeholderTextColor: .white, backgroundColor: .clear, borderColor: .white,
                              isLeftView: true)
             nameTF.delegate = self
+            nameTF.autocorrectionType = .no
         }
     }
     @IBOutlet weak var codeTF: UITextField! {
@@ -25,6 +26,8 @@ class VerificationViewController: UIViewController, UITextFieldDelegate {
             codeTF.configure(withIcon: FontAwesome.code, iconColor: .white, text: "Полученный код", textColor: .white,
                              placeholderTextColor: .white, backgroundColor: .clear, borderColor: .white, isLeftView: true)
             codeTF.delegate = self
+            codeTF.keyboardType = .decimalPad
+
         }
     }
     
@@ -48,15 +51,6 @@ class VerificationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(netHex: Colors.yellow)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Keyboard.shared.setObservers(inScrollView: scrollView)
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        Keyboard.shared.removeObservers(inScrollView: scrollView)
     }
 }
 

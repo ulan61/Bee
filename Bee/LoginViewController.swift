@@ -35,7 +35,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func send(_ sender: UIButton) {
         let str = textField.text!
         var compareStr = ""
-
+        
         if str != "" && str.characters.count == 16 {
             let startIndex = str.startIndex
             let endIndex = str.index(str.startIndex, offsetBy: 4)
@@ -62,12 +62,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.backgroundColor = UIColor.init(netHex: Colors.yellow)
-        Keyboard.shared.setObservers(inScrollView: scrollView)
+        Notifications.shared.setKeyboardObservers(inScrollView: scrollView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Keyboard.shared.removeObservers(inScrollView: scrollView)
+        Notifications.shared.removeKeyboardObservers(inScrollView: scrollView)
     }
 }
 

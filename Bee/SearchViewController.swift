@@ -18,9 +18,20 @@ class SearchViewController: UIViewController,UIScrollViewDelegate {
         }
     }
     
-    @IBOutlet weak var descriptionTextView: UITextView!
+    var serviceDescription: String!
+    var cost: String!
     
-    @IBOutlet weak var costLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!{
+        didSet{
+            descriptionTextView.text = serviceDescription
+        }
+    }
+    
+    @IBOutlet weak var costLabel: UILabel!{
+        didSet{
+            costLabel.text = cost + " сом"
+        }
+    }
     
     @IBOutlet weak var addCostLabel: UILabel!
     
