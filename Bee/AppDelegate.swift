@@ -7,21 +7,28 @@
 //
 
 import UIKit
+import Fabric
+import DigitsKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, DGTSessionUpdateDelegate {
 
     var window: UIWindow?
 
+    func digitsSessionHasChanged(_ newSession: DGTSession!) {
+        print(newSession.description)
+    }
+    func digitsSessionExpired(forUserID userID: String!) {
+        print(userID)
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        Fabric.with([Digits.self])
         
         UIApplication.shared.statusBarStyle = .lightContent
         
-//        UserDefaults.standard.removeObject(forKey: "isSignedIn")
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let loginViewController = storyboard.instantiateViewController(withIdentifier: "Login") as! LoginViewController
+        Digits.sharedInstance().sessionUpdateDelegate = self
         
         let tabbarController = UITabBarController()
 
@@ -37,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             navCon.viewControllers[0] = tabbarController.setTabbarController()
         }
         else{
-            navCon.viewControllers[0] = loginViewController
+            navCon.viewControllers[0] = LoginViewController.storyboardInstance()
         }
         
         return false

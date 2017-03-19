@@ -12,4 +12,7 @@ target 'Bee' do
   pod 'SwiftMaskTextfield'
   pod 'Alamofire', '~> 4.3'
   pod 'FontAwesome.swift'
+  pod 'FCAlertView'
+  pod 'Fabric'
+  pod 'Digits'
 end

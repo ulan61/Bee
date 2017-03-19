@@ -51,7 +51,13 @@ extension String{
         }
         return numberStr
     }
+    
+    func stringByAddingPercentEncodingForURLQueryParameter() -> String {
+        let allowedCharacters = NSCharacterSet.urlQueryAllowed
+        return addingPercentEncoding(withAllowedCharacters: allowedCharacters)!
+    }
 }
+
 
 //MARK: UIButton
 extension UIButton {
@@ -94,6 +100,26 @@ extension UILabel{
 }
 //MARK: UITextField
 extension UITextField{
+    
+    func isRightTelephoneNumber() -> Bool{
+        let str = self.text!
+        var compareStr = ""
+        
+        if str != "" && str.characters.count == 16 {
+            let startIndex = str.startIndex
+            let endIndex = str.index(str.startIndex, offsetBy: 4)
+            compareStr = str[startIndex...endIndex]
+            if compareStr == "0 (77" || compareStr == "0 (70" || compareStr == "0 (55" {
+                return true
+            }
+            else{
+                return false
+            }
+        }
+        else{
+            return false
+        }
+    }
     func configure(withIcon icon: String,
                    iconColor: UIColor,
                    text: String,

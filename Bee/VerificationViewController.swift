@@ -21,16 +21,6 @@ class VerificationViewController: UIViewController, UITextFieldDelegate {
             nameTF.autocorrectionType = .no
         }
     }
-    @IBOutlet weak var codeTF: UITextField! {
-        didSet{
-            codeTF.configure(withIcon: FontAwesome.code, iconColor: .white, text: "Полученный код", textColor: .white,
-                             placeholderTextColor: .white, backgroundColor: .clear, borderColor: .white, isLeftView: true)
-            codeTF.delegate = self
-            codeTF.keyboardType = .decimalPad
-
-        }
-    }
-    
     @IBOutlet weak var loginButton: UIButton! {
         didSet{
             loginButton.backgroundColor = .white
@@ -44,9 +34,15 @@ class VerificationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func signIn(_ sender: UIButton) {
-        let tabbarController = UITabBarController()
-        navigationController?.viewControllers[0] = tabbarController.setTabbarController()
-        UserDefaults.standard.set(true, forKey: "isSignedIn")
+        if !nameTF.text!.isEmpty{
+            let tabbarController = UITabBarController()
+            navigationController?.viewControllers[0] = tabbarController.setTabbarController()
+            UserDefaults.standard.set(nameTF.text, forKey: "name")
+            UserDefaults.standard.set(true, forKey: "isSignedIn")
+        }
+        else{
+            AlertView.shared.show(in: self, withTitle: "Введите имя", subtitle: "", buttonTitle: "OK")
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,8 +66,8 @@ extension VerificationViewController{
         scrollView.endEditing(true)
     }
 }
-//MARK: UITextFieldDelegate methods
 
+//MARK: UITextFieldDelegate methods
 extension VerificationViewController{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

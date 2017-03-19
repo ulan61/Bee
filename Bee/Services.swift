@@ -11,5 +11,4 @@ import Foundation
 class Services {
     static let shared = Services()
     
-    
 }

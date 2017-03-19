@@ -14,7 +14,6 @@ class SearchViewController: UIViewController,UIScrollViewDelegate {
         didSet{
             scrollView.delegate = self
             scrollView.isScrollEnabled = true
-            print(scrollView.gestureRecognizers!)
         }
     }
     
@@ -51,4 +50,3 @@ class SearchViewController: UIViewController,UIScrollViewDelegate {
         self.view.backgroundColor = UIColor.init(netHex: Colors.greyBackground)
     }
 }
-

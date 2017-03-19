@@ -66,26 +66,67 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
             telephoneNumberTF.tag = 3
             telephoneNumberTF.keyboardType = .decimalPad
             telephoneNumberTF.formatPattern = "# (###) ##-##-##"
-            
         }
     }
     
+    @IBOutlet weak var activityIndicator:UIActivityIndicatorView!{didSet{activityIndicator.hidesWhenStopped = true}}
+    
     @IBAction func sendApplication(_ sender: UIButton) {
-        self.performSegue(withIdentifier: myAppLicationTVStoryboardId, sender: self)
+        //Check text in textAreas
+        guard isAllFieldsFilled() else {
+            AlertView.shared.show(in: self, withTitle: "Пустые поля", subtitle: "Пожалуйста, заполните все поля", buttonTitle: "ОК")
+            return
+        }
+        //Check telephone number
+        guard telephoneNumberTF.isRightTelephoneNumber() else {
+            AlertView.shared.show(in: self, withTitle: "Неправильный номер", subtitle: "Пожалуйста, убедитесь в правильности набранного номера", buttonTitle: "ОК")
+            return
+        }
+        //Check Internet
+        guard Internet.isAvailable() else {
+            AlertView.shared.show(in: self, withTitle: "Соединение отсутствует", subtitle: "Убедитесь, что вы подключены к интернету", buttonTitle: "OK")
+            return
+        }
+        
+        let parameters = ["description": descriptionTextView.text!,
+                          "price": costTF.text!,
+                          "address": addressTF.text!,
+                          "number": telephoneNumberTF.text!.getDigits(),
+                          "category": "Сантехнические услуги"]
+        activityIndicator.startAnimating()
+        sender.setTitle("", for: .normal)
+        sender.isEnabled = false
+        NewApplication.shared.post(parameters: parameters as NSDictionary){ [unowned self] response in
+            switch response.result {
+            case .success:
+                sender.isEnabled = true
+                self.activityIndicator.stopAnimating()
+                sender.setTitle("Отправить", for: .normal)
+                AlertView.shared.show(in: self, withTitle: "Заявка принята", subtitle: "Ваш заявка принята, ожидайте", buttonTitle: "OK")
+                self.clearTextAreas()
+                UserDefaults.standard.removeObject(forKey: "selectedEmployee")
+                break
+            case .failure(let error):
+                sender.isEnabled = true
+                self.activityIndicator.stopAnimating()
+                sender.setTitle("Отправить", for: .normal)
+                AlertView.shared.show(in: self, withTitle: "Ошибка", subtitle: "Ошибка на сервере", buttonTitle: "OK")
+                print(error)
+            }
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Новая заявка"
         addTapToScrollView()
     }
     
     //MARK: View life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        Notifications.shared.setKeyboardObservers(inScrollView: scrollView)
         self.tabBarController?.navigationItem.title = "Новая заявка"
         self.view.backgroundColor = UIColor(netHex: Colors.greyBackground)
-        Notifications.shared.setKeyboardObservers(inScrollView: scrollView)
         guard let chosenEmployee = UserDefaults.standard.string(forKey: "selectedEmployee") else {
             chooseTF.text = ""
             return
@@ -96,7 +137,6 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         Notifications.shared.removeKeyboardObservers(inScrollView: scrollView)
-        UserDefaults.standard.removeObject(forKey: "selectedEmployee")
     }
     
     
@@ -110,12 +150,6 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
         searchVC.serviceDescription = descriptionTextView.text!
     }
     
-    func setBackItem() {
-        let backItem = UIBarButtonItem()
-        backItem.title = ""
-        tabBarController?.navigationItem.backBarButtonItem = backItem
-    }
-    
 }
 
 //MARK: Helper functions
@@ -123,13 +157,35 @@ class NewApplicationViewController: UIViewController, UITextFieldDelegate, UITex
 extension NewApplicationViewController{
     
     func addTapToScrollView() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewApplicationViewController.dismissKeyboard))
         
         scrollView.addGestureRecognizer(tap)
     }
     
     func dismissKeyboard() {
         scrollView.endEditing(true)
+    }
+    
+    func clearTextAreas() {
+        addressTF.text = ""
+        telephoneNumberTF.text = ""
+        costTF.text = ""
+        descriptionTextView.text = "Опишите то, что необходимо сделать"
+        descriptionTextView.textColor = UIColor.init(netHex: Colors.greyTextFieldText)
+        chooseTF.text = ""
+        UserDefaults.standard.removeObject(forKey: "selectedEmployee")
+    }
+    func setBackItem() {
+        let backItem = UIBarButtonItem()
+        backItem.title = ""
+        tabBarController?.navigationItem.backBarButtonItem = backItem
+    }
+    
+    func isAllFieldsFilled() -> Bool{
+        if descriptionTextView.textColor != UIColor.init(netHex: Colors.greyTextFieldText) && !chooseTF.text!.isEmpty && !costTF.text!.isEmpty && !addressTF.text!.isEmpty && !telephoneNumberTF.text!.isEmpty {
+            return true
+        }
+        return false
     }
 }
 

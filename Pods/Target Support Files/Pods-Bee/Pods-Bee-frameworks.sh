@@ -91,12 +91,14 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CCHexagonFlowLayout/CCHexagonFlowLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FCAlertView/FCAlertView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FontAwesome.swift/FontAwesome_swift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftMaskTextfield/SwiftMaskTextfield.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CCHexagonFlowLayout/CCHexagonFlowLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/FCAlertView/FCAlertView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FontAwesome.swift/FontAwesome_swift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftMaskTextfield/SwiftMaskTextfield.framework"
 fi

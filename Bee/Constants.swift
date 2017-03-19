@@ -18,6 +18,7 @@ struct FontAwesome {
     static let user = String.fontAwesomeIcon(name: .user)
     static let circle = String.fontAwesomeIcon(name: .circle)
     static let thinCicle = String.fontAwesomeIcon(name: .circleThin)
+    static let edit = String.fontAwesomeIcon(name: .edit)
 }
 
 struct Colors {

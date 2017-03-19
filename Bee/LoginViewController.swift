@@ -8,12 +8,37 @@
 
 import UIKit
 import SwiftMaskTextfield
+import DigitsKit
+
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    static func storyboardInstance() -> UIViewController{
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = storyboard.instantiateViewController(withIdentifier: "Login") as! LoginViewController
+        return loginViewController
+    }
+    
+    
+    var isUserRegistered: Bool! {
+        didSet{
+            UserDefaults.standard.set(isUserRegistered, forKey: "isUserRegistered")
+        }
+    }
+    
     @IBOutlet weak var scrollView: UIScrollView!
     
-    @IBOutlet weak var conView: UIView! { didSet{ conView.alpha = 0 } }
+    @IBOutlet weak var conView: UIView! {
+        didSet{
+            let userDef = UserDefaults.standard
+            if userDef.bool(forKey: "isUserRegistered") == true {
+                conView.alpha = 1
+            }
+            else{
+                conView.alpha = 0
+            }
+        }
+    }
     
     @IBOutlet weak var textField: SwiftMaskTextField!{
         didSet{
@@ -32,32 +57,48 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBOutlet weak var activityIndicator:UIActivityIndicatorView!
+    
     @IBAction func send(_ sender: UIButton) {
-        let str = textField.text!
-        var compareStr = ""
         
-        if str != "" && str.characters.count == 16 {
-            let startIndex = str.startIndex
-            let endIndex = str.index(str.startIndex, offsetBy: 4)
-            compareStr = str[startIndex...endIndex]
-            if compareStr == "0 (77" || compareStr == "0 (70" || compareStr == "0 (55" {
-                //TODO: post data to server
-                
-                print(str.getDigits())
-                
-                //TODO: show another view controller
-                conView.alpha = 1
-                textField.resignFirstResponder()
-                
-                print("Номер правильный")
-            }
-            else{
-                //TODO: show alert
-                print("Номер неправильный")
-            }
-        } else{
-            print("Введите номер")
+        guard Internet.isAvailable() else {
+            AlertView.shared.show(in: self, withTitle: "Проблема с соединением", subtitle: "Убедитесь, что Вы подключены к интенету", buttonTitle: "OK")
+            return
         }
+        
+        guard textField.isRightTelephoneNumber() else {
+            AlertView.shared.show(in: self, withTitle: "Неправильный номер", subtitle: "Пожалуйста, убедитесь в правильности набранного номера", buttonTitle: "ОК")
+            return
+        }
+        activityIndicator.startAnimating()
+        sender.setTitle("", for: .normal)
+        sender.isEnabled = false
+        let number = textField.text!
+        textField.resignFirstResponder()
+        UIApplication.shared.statusBarStyle = .default
+        let numberWithoutZero = "\(Int(number.getDigits())!)"
+        let digits = Digits.sharedInstance()
+        digits.logOut()
+        digits.authenticate(with: nil, configuration: configuredDigits(with: numberWithoutZero)) { [unowned self] session, error in
+            
+            guard error == nil else{
+                return
+            }
+            DispatchQueue.main.async {
+               
+                self.conView.alpha = 1
+                UIApplication.shared.statusBarStyle = .lightContent
+                UserDefaults.standard.set(number, forKey: "phoneNumber")
+                self.isUserRegistered = true
+            }
+        }
+        sender.isEnabled = true
+        sender.setTitle("Отправить", for: .normal)
+        self.activityIndicator.stopAnimating()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addTapToScrollView()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -70,7 +111,34 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         Notifications.shared.removeKeyboardObservers(inScrollView: scrollView)
     }
 }
+//MARK: Helper functions
 
+extension LoginViewController{
+    func configuredDigits(with number: String) -> DGTAuthenticationConfiguration {
+        let configuration = DGTAuthenticationConfiguration(accountFields: .defaultOptionMask)
+        configuration!.phoneNumber = "+996" + number
+        configuration!.appearance = DGTAppearance()
+        configuration!.title = "Пчелка"
+        let digitsAppearance = configuration!.appearance
+        digitsAppearance!.backgroundColor = UIColor.init(netHex: Colors.yellow)
+        digitsAppearance!.accentColor = UIColor.init(netHex: Colors.black)
+        digitsAppearance!.headerFont = UIFont(name: ".SFUIText", size: 18)
+        digitsAppearance!.labelFont = UIFont(name: ".SFUIText", size: 16)
+        digitsAppearance!.bodyFont = UIFont(name: ".SFUIText", size: 16)
+        
+        return configuration!
+    }
+    func addTapToScrollView() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewApplicationViewController.dismissKeyboard))
+        
+        scrollView.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        scrollView.endEditing(true)
+    }
+    
+}
 extension LoginViewController{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = "0"
